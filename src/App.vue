@@ -2,13 +2,18 @@
   <div class="view login" v-if="state.username === '' || state.username === null">
     <form class="login-form" @submit.prevent="Login">
       <div class="form-inner">
-        <h1>Login to FireChat</h1>
-        <label for="username">Username</label>
-        <input 
+				<div class="icon">
+					<img src="/chat.png" alt="https://www.flaticon.com" />
+					<!-- <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+				</div>
+				<p class="text-center text-2xl font-bold my-4">NB-CHAT</p>
+        <input
+					class="rounded-full" 
           type="text" 
           v-model="inputUsername" 
-          placeholder="Please enter your username..." />
+          placeholder="Username..." />
         <input 
+					class="rounded-full" 
           type="submit" 
           value="Login" />
       </div>
@@ -16,10 +21,13 @@
   </div>
   
   <div class="view chat" v-else>
-    <header>
-      <button class="logout" @click="Logout">Logout</button>
-      <h1>Welcome, {{ state.username }}</h1>
-			<button @click="cek">cek</button>
+    <header class="flex justify-between px-8 py-6 text-xl">
+      <!-- <h1 class="text-2xl font-bold">{{ state.username }}</h1> -->
+			<button class="logout1 shadow-lg text-white py-2 px-4 rounded-lg ">
+				<i class="fas fa-user"></i>
+				<span class="ml-2">{{ state.username }}</span>
+			</button>
+      <button class="logout1 shadow-lg text-white py-2 px-4 rounded-lg " @click="Logout">Logout</button>
     </header>
     
     <section class="chat-box">
@@ -44,12 +52,16 @@
     <footer>
       <form @submit.prevent="SendMessage">
         <input 
+					class="rounded-full" 
           type="text" 
           v-model="inputMessage" 
           placeholder="Write a message..." />
-        <input 
+				<button class="logout1 ml-2 shadow-lg focus:outline-none text-white py-2 px-4 rounded-full ">
+					<i class="fas fa-paper-plane"></i>
+				</button>
+        <!-- <input 
           type="submit" 
-          value="Send" />
+          value="Send" /> -->
       </form>
     </footer>
   </div>
@@ -58,7 +70,7 @@
 <script>
 import { reactive, onMounted, ref, computed } from 'vue';
 import db from './db.js';
-
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 export default {
   setup () {
     const inputUsername = ref("");
@@ -147,7 +159,23 @@ export default {
 }
 </script>
 
+<style lang="postcss" scoped>
+.icon {
+	@apply text-center flex items-center w-full m-auto;
+}
+
+.icon img{
+	@apply m-auto;
+	max-width: 100px;
+}
+
+.logout1 {
+	background: #5a4bbe;
+}
+</style>
+
 <style lang="scss">
+
 * {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -201,7 +229,7 @@ export default {
 					display: block;
 					width: 100%;
 					padding: 10px 15px;
-					border-radius: 8px;
+					// border-radius: 8px;
 					margin-bottom: 15px;
 					
 					color: #333;
@@ -228,7 +256,7 @@ export default {
 					width: 100%;
 					padding: 10px 15px;
 					background-color: #6C5DD3;
-					border-radius: 8px;
+					// border-radius: 8px;
 
 					color: #FFF;
 					font-size: 18px;
@@ -257,10 +285,10 @@ export default {
 		flex-direction: column;
 
 		header {
-			position: relative;
-			display: block;
-			width: 100%;
-			padding: 50px 30px 10px;
+			// position: relative;
+			// display: block;
+			// width: 100%;
+			// padding: 50px 30px 10px;
 
 			.logout {
 				position: absolute;
@@ -356,7 +384,7 @@ export default {
 					display: block;
 					width: 100%;
 					padding: 10px 15px;
-					border-radius: 8px 0px 0px 8px;
+					// border-radius: 8px 0px 0px 8px;
 					
 					color: #333;
 					font-size: 18px;
