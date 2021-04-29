@@ -1,0 +1,19 @@
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAYufU19v7GbcdH8zlSENpx_D_yslA-kR0",
+    authDomain: "vuechat-9eb19.firebaseapp.com",
+    projectId: "vuechat-9eb19",
+    storageBucket: "vuechat-9eb19.appspot.com",
+    messagingSenderId: "955052840025",
+    appId: "1:955052840025:web:b76552b4004a0a0c72cd48"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
