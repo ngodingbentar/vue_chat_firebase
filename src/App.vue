@@ -19,6 +19,7 @@
     <header>
       <button class="logout" @click="Logout">Logout</button>
       <h1>Welcome, {{ state.username }}</h1>
+			<button @click="cek">cek</button>
     </header>
     
     <section class="chat-box">
@@ -28,7 +29,14 @@
         :class="(message.username == state.username ? 'message current-user' : 'message other-user')">
         <div class="message-inner">
           <div v-if="message.username != state.username" class="username">{{ message.username }}</div>
-          <div class="content shadow-md ">{{ message.content }}</div>
+					<div v-if="message.username != state.username" class="flex">
+						<div class="content shadow-md ">{{ message.content }}</div>
+						<p class="mt-2 ml-2 text-gray-400">{{message.jam}}:{{message.menit}}</p>
+					</div>
+					<div v-else class="flex">
+						<p class="mt-2 mr-2 text-gray-400">{{message.jam}}:{{message.menit}}</p>
+						<div class="content shadow-md ">{{ message.content }}</div>
+					</div>
         </div>
       </div>
     </section>
@@ -48,7 +56,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref } from 'vue';
+import { reactive, onMounted, ref, computed } from 'vue';
 import db from './db.js';
 
 export default {
@@ -60,6 +68,14 @@ export default {
       username: "",
       messages: []
     });
+
+		const jam = computed(() => {
+			return new Date().getHours();
+		})
+
+		const menit = computed(() => {
+			return new Date().getMinutes();
+		})
 
     const Login = () => {
       if (inputUsername.value != "" || inputUsername.value != null) {
@@ -81,7 +97,9 @@ export default {
 
       const message = {
         username: state.username,
-        content: inputMessage.value
+        content: inputMessage.value,
+				jam: new Date().getHours().toString(),
+				menit: new Date().getMinutes().toString(),
       }
 
       messagesRef.push(message);
@@ -99,7 +117,9 @@ export default {
           messages.push({
             id: key,
             username: data[key].username,
-            content: data[key].content
+            content: data[key].content,
+            jam: data[key].jam,
+            menit: data[key].menit
           });
         });
 
@@ -107,14 +127,22 @@ export default {
       });
     });
 
+
     return {
       inputUsername,
       Login,
       state,
+			jam,
+			menit,
       inputMessage,
       SendMessage,
-      Logout
+      Logout,
+			cek
     }
+
+		function cek(){
+			console.log('message')
+		}
   }
 }
 </script>
@@ -270,8 +298,8 @@ export default {
 						color: #888;
 						font-size: 16px;
 						margin-bottom: 5px;
-						padding-left: 15px;
-						padding-right: 15px;
+						// padding-left: 15px;
+						// padding-right: 15px;
 					}
 
 					.content {
