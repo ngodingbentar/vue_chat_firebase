@@ -2,13 +2,15 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 const config = {
-	apiKey: process.env.API_KEY,
-	authDomain: process.env.AUTH_DOMAIN,
-	projectId: "vuechat-9eb19",
-	storageBucket: "vuechat-9eb19.appspot.com",
-	messagingSenderId: "955052840025",
-	appId: "1:955052840025:web:b76552b4004a0a0c72cd48"
+	apiKey: process.env.VUE_APP_API_KEY,
+	authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+	projectId: process.env.VUE_APP_PROJECT_ID,
+	storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+	messagingSenderId: process.env.VUE_APP_SENDER_ID,
+	appId: process.env.VUE_APP_APP_ID
 }
+
+console.log('config', config)
 
 const db = firebase.initializeApp(config);
 export default db;
