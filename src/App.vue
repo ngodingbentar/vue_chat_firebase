@@ -25,10 +25,10 @@
       <div 
         v-for="message in state.messages" 
         :key="message.key" 
-        :class="(message.username == state.username ? 'message current-user' : 'message')">
+        :class="(message.username == state.username ? 'message current-user' : 'message other-user')">
         <div class="message-inner">
-          <div class="username">{{ message.username }}</div>
-          <div class="content">{{ message.content }}</div>
+          <div v-if="message.username != state.username" class="username">{{ message.username }}</div>
+          <div class="content shadow-md ">{{ message.content }}</div>
         </div>
       </div>
     </section>
@@ -134,7 +134,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
-	background-color: #ea526f;
+	background-color: #6C5DD3;
 	
 	&.login {
 		align-items: center;
@@ -199,7 +199,7 @@ export default {
 					display: block;
 					width: 100%;
 					padding: 10px 15px;
-					background-color: #ea526f;
+					background-color: #6C5DD3;
 					border-radius: 8px;
 
 					color: #FFF;
@@ -209,7 +209,7 @@ export default {
 
 				&:focus-within {
 					label {
-						color: #ea526f;
+						color: #6C5DD3;
 					}
 
 					input[type="text"] {
@@ -278,8 +278,7 @@ export default {
 						display: inline-block;
 						padding: 10px 20px;
 						background-color: #F3F3F3;
-						border-radius: 999px;
-
+						// border-radius: 999px;
 						color: #333;
 						font-size: 18px;
 						line-height: 1.2em;
@@ -298,7 +297,10 @@ export default {
 						.content {
 							color: #FFF;
 							font-weight: 600;
-							background-color: #ea526f;
+							background-color: #6C5DD3;
+							border-top-left-radius: 12px !important;
+							border-bottom-left-radius: 12px !important;
+							border-bottom-right-radius: 12px !important;
 						}
 					}
 				}
@@ -352,7 +354,7 @@ export default {
 					padding: 10px 15px;
 					border-radius: 0px 8px 8px 0px;
 
-					background-color: #ea526f;
+					background-color: #6C5DD3;
 
 					color: #FFF;
 					font-size: 18px;
@@ -362,4 +364,14 @@ export default {
 		}
 	}
 }
+.other-user{
+	.message-inner {
+					.content{
+						border-top-right-radius: 12px;
+						border-bottom-left-radius: 12px;
+						border-bottom-right-radius: 12px;
+					}
+
+	}
+				}
 </style>

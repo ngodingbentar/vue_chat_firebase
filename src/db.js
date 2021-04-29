@@ -10,7 +10,5 @@ const config = {
 	appId: process.env.VUE_APP_APP_ID
 }
 
-console.log('config', config)
-
 const db = firebase.initializeApp(config);
 export default db;
