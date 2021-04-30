@@ -1,4 +1,32 @@
 <template>
+	<div class="detail min-h-screen" v-if="isDetail">
+		<!-- <div class="header px-8 py-4 text-lg">
+			<button @click="isBack" class="back focus:outline-none shadow-lg text-white rounded-full p-2 justify-center flex">
+				<i class="fas fa-arrow-left ikon"></i>
+			</button>
+			<p class="text-white text-center pb-4">{{state.users.length}} members</p>
+    </div> -->
+		<div class="detail-main">
+			<div class="header flex justify-between px-8 pt-4 text-lg">
+				<button @click="isBack" class="logout1 focus:outline-none shadow-lg text-white py-1 px-4 rounded-lg ">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+			</div>
+				<p class="text-white text-center pb-4">{{state.users.length}} members</p>
+		</div>
+
+		<section class="list-members">
+			<div class="px-2">
+				<div 
+					v-for="(message, index) in state.users" 
+					:key="index"
+					class="py-2"	
+				>
+					<p class="text-2xl"><i class="fas fa-user-circle"></i> <span class="pl-2">{{message.name}}</span></p>
+				</div>
+			</div>
+    </section>
+	</div>
   <div class="view login" v-if="state.username === '' || state.username === null">
     <form class="login-form" @submit.prevent="Login">
       <div class="form-inner">
@@ -20,15 +48,20 @@
     </form>
   </div>
   
-  <div class="view chat" v-else>
-    <header class="flex justify-between px-8 py-6 text-xl">
+  <div class="view chat" v-if="isChat">
+    <header class="flex justify-between px-8 pt-4 text-lg">
       <!-- <h1 class="text-2xl font-bold">{{ state.username }}</h1> -->
-			<button class="logout1 shadow-lg text-white py-2 px-4 rounded-lg ">
+			<button class="logout1 focus:outline-none shadow-lg text-white py-1 px-4 rounded-lg ">
 				<i class="fas fa-user"></i>
 				<span class="ml-2">{{ state.username }}</span>
 			</button>
-      <button class="logout1 shadow-lg text-white py-2 px-4 rounded-lg " @click="Logout">Logout</button>
+      <button class="logout1 shadow-lg text-white p-2 rounded-full flex" @click="Logout">
+				<i class="fas fa-power-off"></i>
+			</button>
     </header>
+		<button class="focus:outline-none ">
+			<p @click="setDetail" class="text-white text-center pb-4 ">{{state.users.length}} members</p>
+		</button>
     
     <section class="chat-box">
       <div 
@@ -49,13 +82,13 @@
       </div>
     </section>
 
-    <footer>
+    <footer class="px-4 py-2">
       <form @submit.prevent="SendMessage">
         <input 
 					class="rounded-full" 
           type="text" 
           v-model="inputMessage" 
-          placeholder="Write a message..." />
+          placeholder="Type a message" />
 				<button class="logout1 ml-2 shadow-lg focus:outline-none text-white py-2 px-4 rounded-full ">
 					<i class="fas fa-paper-plane"></i>
 				</button>
@@ -78,8 +111,13 @@ export default {
 
     const state = reactive({
       username: "",
-      messages: []
+      messages: [],
+			users: []
     });
+
+		let isDetail = ref(false)
+		let isChat = ref(false)
+		// let isBack = ref(false)
 
 		const jam = computed(() => {
 			return new Date().getHours();
@@ -94,6 +132,8 @@ export default {
         state.username = inputUsername.value;
         inputUsername.value = "";
       }
+			isChat.value = true
+			isDetail.value = false
     }
 
     const Logout = () => {
@@ -124,8 +164,10 @@ export default {
       messagesRef.on('value', snapshot => {
         const data = snapshot.val();
         let messages = [];
+				let users = []
 
         Object.keys(data).forEach(key => {
+					// console.log('users 1', users)
           messages.push({
             id: key,
             username: data[key].username,
@@ -133,9 +175,17 @@ export default {
             jam: data[key].jam,
             menit: data[key].menit
           });
+					users.push({
+            name: data[key].username
+          });
         });
 
         state.messages = messages;
+				// console.log('users', users.name)
+				// var unique = users.filter(onlyUnique);
+				state.users = users.filter((v,i,a)=>a.findIndex(t=>(t.name === v.name))===i)
+
+				console.log('state.users',state.users);
       });
     });
 
@@ -149,17 +199,44 @@ export default {
       inputMessage,
       SendMessage,
       Logout,
-			cek
+			cek,
+			isDetail,
+			isChat,
+			setDetail,
+			isBack
     }
 
-		function cek(){
-			console.log('message')
+		function setDetail() {
+			isChat.value = false
+			isDetail.value = true
 		}
+
+		function isBack(){
+			isChat.value = true
+			isDetail.value = false
+		}
+
+		function cek(){
+			// var a = ['a', 1, 'a', 2, '1'];
+			// var data = state.messages.[key].username
+			// var unique = data.filter(onlyUnique);
+
+			// console.log(unique);
+		}
+
   }
 }
 </script>
 
 <style lang="postcss" scoped>
+
+.list-members {
+	@apply min-h-screen bg-white p-8;
+	border-radius: 24px 24px 0px 0px;
+}
+.detail {
+	background: #6C5DD3;
+}
 .icon {
 	@apply text-center flex items-center w-full m-auto;
 }
@@ -175,6 +252,20 @@ export default {
 </style>
 
 <style lang="scss">
+
+.back {
+	background: #5a4bbe;
+	svg {
+		width: 20px !important;
+		height: 20px !important;
+	}
+}
+
+.detail {
+	.header {
+		background: #6C5DD3;
+	}
+}
 
 * {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -367,7 +458,7 @@ export default {
 			position: sticky;
 			bottom: 0px;
 			background-color: #FFF;
-			padding: 30px;
+			// padding: 30px;
 			box-shadow: 0px 0px 12px rgba(100, 100, 100, 0.2);
 
 			form {
