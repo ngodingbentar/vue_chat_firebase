@@ -1,4 +1,5 @@
 <template>
+<span class="container">
 	<div class="detail min-h-screen" v-if="isDetail">
 		<!-- <div class="header px-8 py-4 text-lg">
 			<button @click="isBack" class="back focus:outline-none shadow-lg text-white rounded-full p-2 justify-center flex">
@@ -7,7 +8,7 @@
 			<p class="text-white text-center pb-4">{{state.users.length}} members</p>
     </div> -->
 		<div class="detail-main">
-			<div class="header flex justify-between px-8 pt-4 text-lg">
+			<div class="header flex justify-between px-4 pt-4 text-lg">
 				<button @click="isBack" class="logout1 focus:outline-none shadow-lg text-white py-1 px-4 rounded-lg ">
 					<i class="fas fa-arrow-left"></i>
 				</button>
@@ -49,7 +50,7 @@
   </div>
   
   <div class="view chat" v-if="isChat">
-    <header class="flex justify-between px-8 pt-4 text-lg">
+    <header class="flex justify-between px-4 pt-4 text-lg">
       <!-- <h1 class="text-2xl font-bold">{{ state.username }}</h1> -->
 			<button class="logout1 focus:outline-none shadow-lg text-white py-1 px-4 rounded-lg ">
 				<i class="fas fa-user"></i>
@@ -98,6 +99,8 @@
       </form>
     </footer>
   </div>
+</span>
+	
 </template>
 
 <script>
@@ -229,7 +232,6 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-
 .list-members {
 	@apply min-h-screen bg-white p-8;
 	border-radius: 24px 24px 0px 0px;
