@@ -187,8 +187,6 @@ export default {
 				// console.log('users', users.name)
 				// var unique = users.filter(onlyUnique);
 				state.users = users.filter((v,i,a)=>a.findIndex(t=>(t.name === v.name))===i)
-
-				console.log('state.users',state.users);
       });
     });
 
