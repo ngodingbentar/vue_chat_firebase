@@ -72,12 +72,22 @@
         <div class="message-inner">
           <div v-if="message.username != state.username" class="username">{{ message.username }}</div>
 					<div v-if="message.username != state.username" class="flex">
-						<div class="content shadow-md ">{{ message.content }}</div>
-						<p class="mt-2 ml-2 text-gray-400">{{message.jam}}:{{message.menit}}</p>
+						<div>
+							<p class="content shadow-md">{{ message.content }}</p>
+						</div>
+						<div class="block">
+							<p class="mt-2 ml-2 text-gray-400 text-xs">{{message.date}}</p>
+							<p class="mt-2 ml-2 text-gray-400 text-xs">{{message.jam}}:{{message.menit}}</p>
+						</div>
 					</div>
 					<div v-else class="flex">
-						<p class="mt-2 mr-2 text-gray-400">{{message.jam}}:{{message.menit}}</p>
-						<div class="content shadow-md ">{{ message.content }}</div>
+						<div class="block">
+							<p class="mt-2 mr-2 text-gray-400 text-xs">{{message.jam}}:{{message.menit}}</p>
+						<p class="mt-2 mr-2 text-gray-400 text-xs">{{message.date}}</p>
+						</div>
+						<div>
+							<p class="content shadow-md">{{ message.content }}</p>
+						</div>
 					</div>
         </div>
       </div>
@@ -155,6 +165,7 @@ export default {
         content: inputMessage.value,
 				jam: new Date().getHours().toString(),
 				menit: new Date().getMinutes().toString(),
+				date: new Date().toDateString(),
       }
 
       messagesRef.push(message);
@@ -170,13 +181,13 @@ export default {
 				let users = []
 
         Object.keys(data).forEach(key => {
-					// console.log('users 1', users)
           messages.push({
             id: key,
             username: data[key].username,
             content: data[key].content,
             jam: data[key].jam,
-            menit: data[key].menit
+            menit: data[key].menit,
+						date: data[key].date
           });
 					users.push({
             name: data[key].username
@@ -189,7 +200,6 @@ export default {
 				state.users = users.filter((v,i,a)=>a.findIndex(t=>(t.name === v.name))===i)
       });
     });
-
 
     return {
       inputUsername,
